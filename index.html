@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    </meta>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    </meta>
+    <title>Registration Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    </meta>
+    <!-- title icon -->
+    <link rel="icon" href="./assets/logo.png" type="image/png">
+    <!-- icons cdn -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    </link>
+    <!-- font cdn -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <!-- css -->
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
+    </link>
+</head>
+
+<body>
+
+    <img src="./assets/logo.png" class="logo" alt="">
+
+    <h2 class="center">Tech Net Cloud</h2>
+
+    <p>Students Registration Form</p>
+
+    <form onsubmit="enroll(event)">
+
+        <select id="cityName" class="input">
+            <option value="">Select City...</option>
+            <option value="karachi">Karachi</option>
+            <option value="lahore">Lahore</option>
+            <option value="islamabad">Islamabad</option>
+        </select>
+
+        <select id="courseName" class="input">
+            <option value="">Select Course...</option>
+            <option value="webApp">Web & App</option>
+            <option value="graphicsDesignng">Graphic Designing</option>
+        </select>
+
+        <input required type="text" class="input" id="fullName" placeholder="Full Name..." minlength="4" maxlength="10">
+
+        <input required type="text" class="input" id="fatherName" placeholder="Father Name..." minlength="4"
+            maxlength="10">
+
+        <input required type="email" class="input" id="email" placeholder="Email...">
+
+        <input required type="number" class="input" id="phone" placeholder="Phone...">
+
+        <input required type="number" class="input" id="cnic" placeholder="CNIC...">
+
+        <input required type="date" class="input" id="dateOfBirth" placeholder="Date Of Birth...">
+
+        <select id="gender" class="input">
+            <option value="">Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+
+        <select id="lastQualification" class="input">
+            <option value="">Last Qualification</option>
+            <option value="matric">Matric</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="graduation">Graduation</option>
+            <option value="other">Other</option>
+        </select>
+
+        <textarea id="address" class="input" placeholder="Adress..." rows="8"></textarea>
+
+        <div id="pic">
+            <label for="picture">
+                <img src="./assets/upload.PNG" class="picture" id="selectedPictureOutput">
+                <i class="bi bi-pen"></i>
+            </label>
+            <p class="picIns">
+                With white or blue background. File size must be less than 1MB. File type: jpg, jpeg, png. Upload your
+                recent passport size picture. Your Face should be clearly visible without any Glasses.
+            </p>
+        </div>
+
+        <input onchange="pictureInput(event)" type="file" id="picture" hidden>
+
+        <p id="validationMessage"></p>
+
+        <button type="submit" class="submit">+ Submit</button>
+    </form>
+
+    <!-- <h2 class="center">Results</h2>
+    <div class="results"></div> -->
+
+    <p class="center">Tech Net Cloud&copy;</p>
+
+    <!-- firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <!-- sweet alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- javascript -->
+    <script src="./js/main.js"></script>
+</body>
+
+</html>
