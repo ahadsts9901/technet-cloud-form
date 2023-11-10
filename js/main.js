@@ -1,14 +1,13 @@
 const firebaseConfig = {
-    // config
+    
 };
 
 firebase.initializeApp(firebaseConfig);
 let db = firebase.firestore();
 
 function enroll(event) {
-    event.preventDefault()
 
-    let validationMessage = ""
+    event.preventDefault()
 
     let cityName = document.querySelector("#cityName").value
     let courseName = document.querySelector("#courseName").value
@@ -23,146 +22,155 @@ function enroll(event) {
     let address = document.querySelector("#address").value
     let timestamp = firebase.firestore.Timestamp.now().toMillis().value;
 
+    console.log("cnic", cnic.length);
+    console.log("date", dateOfBirth);
+
     // validations
 
     if (!email.endsWith("@gmail.com")) {
-        validationMessage = ("Invalid email address";
+        let validationMessage = "Invalid Email"
+        document.querySelector("#validationMessage").innerText = validationMessage
         return;
     }
 
     if (
         courseName.trim() === ''
     ) {
-        validationMessage = "Please select course"
+        let validationMessage = "Please select course"
+        document.querySelector("#validationMessage").innerText = validationMessage
         return;
     }
 
     if (
         cityName.trim() === ''
     ) {
-        validationMessage = "Please Select City"
+        let validationMessage = "Please Select City"
+        document.querySelector("#validationMessage").innerText = validationMessage
         return;
     }
 
     if (
         fullName.trim() === '' || fullName.length < 5 || fullName.length > 20
     ) {
-        validationMessage = "Lengthen fullname 5 to 20 characters"
+        let validationMessage = "Lengthen Full Name 5 to 20 characters"
+        document.querySelector("#validationMessage").innerText = validationMessage
         return;
     }
 
     if (
-        cityName.trim() === ''
+        fatherName.trim() === ''
     ) {
-        validationMessage = "Please Select City"
+        let validationMessage = "Lengthen Father Name 5 to 20 characters"
+        document.querySelector("#validationMessage").innerText = validationMessage
         return;
     }
 
     if (
-        cityName.trim() === ''
+        phone.trim() === ''
     ) {
-        validationMessage = "Please Select City"
+        let validationMessage = "Please enter Phone Number"
+        document.querySelector("#validationMessage").innerText = validationMessage
+        return;
+    }
+
+    const phoneRegex = /^03[0-9]{9}$/;
+
+    if (!phoneRegex.test(phone)) {
+        let validationMessage = "Invalid Phone Number"
+        document.querySelector("#validationMessage").innerText = validationMessage
+    }
+
+    if (
+        cnic.trim() === ''
+    ) {
+        let validationMessage = "Please enter CNIC"
+        document.querySelector("#validationMessage").innerText = validationMessage
         return;
     }
 
     if (
-        cityName.trim() === ''
+        cnic.length != 13
     ) {
-        validationMessage = "Please Select City"
+        let validationMessage = "Invalid CNIC"
+        document.querySelector("#validationMessage").innerText = validationMessage
         return;
     }
 
     if (
-        cityName.trim() === ''
+        dateOfBirth.trim() === ''
     ) {
-        validationMessage = "Please Select City"
+        let validationMessage = "Please Select Date Of Birth"
+        document.querySelector("#validationMessage").innerText = validationMessage
         return;
     }
 
     if (
-        cityName.trim() === ''
+        gender.trim() === ''
     ) {
-        validationMessage = "Please Select City"
+        let validationMessage = "Please Select Gender"
+        document.querySelector("#validationMessage").innerText = validationMessage
+        return;
+    }
+
+
+    if (
+        lastQualification.trim() === ''
+    ) {
+        let validationMessage = "Please Select Last Qualifictaion"
+        document.querySelector("#validationMessage").innerText = validationMessage
         return;
     }
 
     if (
-        cityName.trim() === ''
+        address.trim() === ''
     ) {
-        validationMessage = "Please Select City"
+        let validationMessage = "Please emter your address"
+        document.querySelector("#validationMessage").innerText = validationMessage
         return;
     }
 
-    if (
-        cityName.trim() === ''
-    ) {
-        validationMessage = "Please Select City"
-        return;
-    }
+    console.log(validationMessage);
 
-    if (
-        cityName.trim() === ''
-    ) {
-        validationMessage = "Please Select City"
-        return;
-    }
-
-    if (
-        cityName.trim() === ''
-    ) {
-        validationMessage = "Please Select City"
-        return;
-    }
-
-    if (
-        cityName.trim() === ''
-    ) {
-        validationMessage = "Please Select City"
-        return;
-    }
-
-    if (cityName)
-
-        db.collection("studentsData2023")
-            .add({
-                cityName: cityName,
-                courseName: courseName,
-                fullName: fullName,
-                fatherName: fatherName,
-                email: email,
-                phone: phone,
-                cnic: cnic,
-                dateOfBirth: dateOfBirth,
-                gender: gender,
-                lastQualification: lastQualification,
-                address: address,
-                timestamp: timestamp,
+    db.collection("studentsData2023")
+        .add({
+            cityName: cityName,
+            courseName: courseName,
+            fullName: fullName,
+            fatherName: fatherName,
+            email: email,
+            phone: phone,
+            cnic: cnic,
+            dateOfBirth: dateOfBirth,
+            gender: gender,
+            lastQualification: lastQualification,
+            address: address,
+            timestamp: timestamp,
+        })
+        .then(function (docRef) {
+            // console.log("Document added successfully. ID:", docRef.id);
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 1000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
             })
-            .then(function (docRef) {
-                // console.log("Document added successfully. ID:", docRef.id);
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 1000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                    }
-                })
 
-                Toast.fire({
-                    icon: 'success',
-                    title: 'Enrolled Successfully'
-                })
-
-                event.target.reset()
-
+            Toast.fire({
+                icon: 'success',
+                title: 'Enrolled Successfully'
             })
-            .catch(function (error) {
-                console.error("Error adding document: ", error);
-            });
+
+            event.target.reset()
+
+        })
+        .catch(function (error) {
+            console.error("Error adding document: ", error);
+        });
 
 }
 

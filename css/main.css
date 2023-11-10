@@ -336,27 +336,14 @@ textarea {
 
 #validationMessage {
   /* color: #e55865; */
-  color: #fadf35!important;
+  color: #fadf35 !important;
   grid-column: span 2;
   text-align: center;
 }
 
 @media only screen and (max-width: 660px) {
   form {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .submit {
-    grid-column-start: 1;
-    grid-column-end: 3;
-  }
-}
-
-@media only screen and (max-width: 460px) {
-  form {
-    grid-template-columns: repeat(1, 1fr);
-  }
-  .submit {
-    grid-column-start: 1;
-    grid-column-end: 2;
+    display: flex;
+    flex-direction: column;
   }
 }
