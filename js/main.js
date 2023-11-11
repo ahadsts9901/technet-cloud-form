@@ -242,7 +242,7 @@ function enroll(event) {
                                             document.querySelector(".submit").innerText = "+ Submit"
                                             event.target.reset()
                                             document.querySelector("#selectedPictureOutput").src = "../assets/upload.PNG"
-
+                                        
                                         })
                                         .catch(function (error) {
                                             console.error("Error adding document: ", error);
@@ -257,6 +257,8 @@ function enroll(event) {
 
                 });
 
+            } else {
+                return;
             }
         })
         .catch(function (error) {
