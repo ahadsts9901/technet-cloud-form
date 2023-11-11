@@ -217,6 +217,7 @@ function enroll(event) {
                                             address: address,
                                             image: downloadURL,
                                             status: status,
+                                            rollNo: "",
                                             timestamp: timestamp,
                                         })
                                         .then(function (docRef) {
