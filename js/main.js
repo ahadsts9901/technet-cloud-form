@@ -20,12 +20,20 @@ function enroll(event) {
     let gender = document.querySelector("#gender").value
     let lastQualification = document.querySelector("#lastQualification").value
     let address = document.querySelector("#address").value
-    let timestamp = firebase.firestore.Timestamp.now().toMillis().value;
-
-    console.log("cnic", cnic.length);
-    console.log("date", dateOfBirth);
+    let timestamp = `${new Date()}`
+    let status = "Pending"
+    let img = document.querySelector("#picture").files[0]
 
     // validations
+
+
+    if (
+        email.trim() === ''
+    ) {
+        let validationMessage = "Please enter email"
+        document.querySelector("#validationMessage").innerText = validationMessage
+        return;
+    }
 
     if (!email.endsWith("@gmail.com")) {
         let validationMessage = "Invalid Email"
@@ -129,47 +137,123 @@ function enroll(event) {
         return;
     }
 
-    console.log(validationMessage);
+    if (
+        !img
+    ) {
+        let validationMessage = "Please select image"
+        document.querySelector("#validationMessage").innerText = validationMessage
+        return;
+    }
+
+    // file size validation
+
+    if (img.size > 1000000) {
+        let validationMessage = "Select image less than 1 MB"
+        document.querySelector("#validationMessage").innerText = validationMessage
+        return;
+    }
+
+    document.querySelector(".submit").innerHTML = `<span class="loader"></span>`
+
+    // check if student already enrolled
+
+    var isAlreadyEnrolled = false;
 
     db.collection("studentsData2023")
-        .add({
-            cityName: cityName,
-            courseName: courseName,
-            fullName: fullName,
-            fatherName: fatherName,
-            email: email,
-            phone: phone,
-            cnic: cnic,
-            dateOfBirth: dateOfBirth,
-            gender: gender,
-            lastQualification: lastQualification,
-            address: address,
-            timestamp: timestamp,
-        })
-        .then(function (docRef) {
-            // console.log("Document added successfully. ID:", docRef.id);
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 1000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-            })
+        .get()
+        .then(function (querySnapshot) {
+            if (querySnapshot.size !== 0) {
 
-            Toast.fire({
-                icon: 'success',
-                title: 'Enrolled Successfully'
-            })
+                querySnapshot.forEach(function (doc) {
+                    let data = doc.data();
 
-            event.target.reset()
+                    if (cnic === data.cnic || email === data.email) {
+                        let validationMessage = "Student Already Enrolled"
+                        document.querySelector("#validationMessage").innerText = validationMessage
+                        document.querySelector(".submit").innerText = "+ Submit"
+                        isAlreadyEnrolled = true
+                        return;
+                    }
 
+                    if (!isAlreadyEnrolled) {
+
+                        // image upload to firebase
+
+                        let fileref = firebase.storage().ref().child(`/students/profilePicture/${img.filename}/${new Date().getTime()}`)
+                        let uploadTask = fileref.put(img)
+
+                        uploadTask.on('state_changed',
+                            (snapshot) => {
+                                var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                                // console.log('Upload is ' + progress + '% done');
+                            },
+                            (error) => {
+                                console.log(error)
+                            },
+                            () => {
+                                uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                                    // console.log('File available at', downloadURL);
+
+                                    // add student to database
+
+                                    db.collection("studentsData2023")
+                                        .add({
+                                            cityName: cityName,
+                                            courseName: courseName,
+                                            fullName: fullName,
+                                            fatherName: fatherName,
+                                            email: email,
+                                            phone: phone,
+                                            cnic: cnic,
+                                            dateOfBirth: dateOfBirth,
+                                            gender: gender,
+                                            lastQualification: lastQualification,
+                                            address: address,
+                                            image: downloadURL,
+                                            status: status,
+                                            timestamp: timestamp,
+                                        })
+                                        .then(function (docRef) {
+                                            // console.log("Document added successfully. ID:", docRef.id);
+                                            const Toast = Swal.mixin({
+                                                toast: true,
+                                                position: 'top-end',
+                                                showConfirmButton: false,
+                                                timer: 1000,
+                                                timerProgressBar: true,
+                                                didOpen: (toast) => {
+                                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                                }
+                                            })
+
+                                            Toast.fire({
+                                                icon: 'success',
+                                                title: 'Enrolled Successfully'
+                                            })
+
+                                            document.querySelector(".submit").innerText = "+ Submit"
+                                            event.target.reset()
+                                            document.querySelector("#selectedPictureOutput").src = "../assets/upload.PNG"
+
+                                        })
+                                        .catch(function (error) {
+                                            console.error("Error adding document: ", error);
+                                        });
+
+                                });
+                            }
+                        );
+
+
+                    }
+
+                });
+
+            }
         })
         .catch(function (error) {
-            console.error("Error adding document: ", error);
+            console.error("Error getting documents: ", error);
         });
 
 }
@@ -536,7 +620,5 @@ function pictureInput(e) {
     let selectedPicture = document.querySelector("#selectedPictureOutput")
 
     selectedPicture.src = pictureInput
-
-    console.log("run");
 
 }
