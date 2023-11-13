@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    </meta>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    </meta>
+    <title>Students Id Card</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    </meta>
+    <!-- title icon -->
+    <link rel="icon" href="../assets/logo.png" type="image/png">
+    <!-- icons cdn -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    </link>
+    <!-- font cdn -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <!-- css -->
+    <link rel="stylesheet" type="text/css" href="../css/idCard.css">
+    </link>
+</head>
+
+<body>
+
+    <img src="../assets/logo.png" class="logo" alt="">
+
+    <h2>Tech Net Cloud</h2>
+
+    <p>Students Id Cards</p>
+
+    <form onsubmit="getCard(event)">
+
+        <input type="number" class="input" id="cnic" placeholder="Enter Your CNIC..." minlength="13" maxlength="13">
+
+        <button type="submit" class="submit">+ Submit</button>
+
+        <a href="../index.html" class="downloadCard"><i class="bi bi-mortarboard-fill"></i> Enroll Now</a>
+
+        <p id="validationMessage"></p>
+
+    </form>
+
+    <h2 class="center" class="idCardResult">Results</h2>
+    <div class="results" class="idCardResult"></div>
+
+    <p>Tech Net Cloud&copy;</p>
+
+    <!-- firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    <!-- sweet alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- download card -->
+    <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+    <!-- javascript -->
+    <script src="../js/idCard.js"></script>
+</body>
+
+</html>
+
+<!-- picture upload -->
+<!-- card -->
+<!-- admin -->

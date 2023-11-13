@@ -164,106 +164,110 @@ function enroll(event) {
     // check if student already enrolled
 
     var isAlreadyEnrolled = false;
+    var query = 0
 
     db.collection("studentsData2023")
         .get()
         .then(function (querySnapshot) {
-            if (querySnapshot.size !== 0) {
 
-                querySnapshot.forEach(function (doc) {
-                    let data = doc.data();
+            query = querySnapshot.size
 
-                    if (cnic === data.cnic || email === data.email) {
-                        let validationMessage = "Student Already Enrolled"
-                        document.querySelector("#validationMessage").innerText = validationMessage
-                        document.querySelector(".submit").innerText = "+ Submit"
-                        isAlreadyEnrolled = true
-                        return;
-                    }
+            querySnapshot.forEach(function (doc) {
+                let data = doc.data();
 
-                    if (!isAlreadyEnrolled) {
+                if (cnic === data.cnic || email === data.email) {
+                    let validationMessage = "Student Already Enrolled"
+                    document.querySelector("#validationMessage").innerText = validationMessage
+                    document.querySelector(".submit").innerText = "+ Submit"
+                    isAlreadyEnrolled = true
+                    return;
+                }
 
-                        // image upload to firebase
+            });
 
-                        let fileref = firebase.storage().ref().child(`/students/profilePicture/${img.filename}/${new Date().getTime()}`)
-                        let uploadTask = fileref.put(img)
-
-                        uploadTask.on('state_changed',
-                            (snapshot) => {
-                                var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                                // console.log('Upload is ' + progress + '% done');
-                            },
-                            (error) => {
-                                console.log(error)
-                            },
-                            () => {
-                                uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                                    // console.log('File available at', downloadURL);
-
-                                    // add student to database
-
-                                    db.collection("studentsData2023")
-                                        .add({
-                                            cityName: cityName,
-                                            courseName: courseName,
-                                            fullName: fullName,
-                                            fatherName: fatherName,
-                                            email: email,
-                                            phone: phone,
-                                            cnic: cnic,
-                                            dateOfBirth: dateOfBirth,
-                                            gender: gender,
-                                            lastQualification: lastQualification,
-                                            address: address,
-                                            image: downloadURL,
-                                            status: status,
-                                            rollNo: "",
-                                            timestamp: timestamp,
-                                        })
-                                        .then(function (docRef) {
-                                            // console.log("Document added successfully. ID:", docRef.id);
-                                            const Toast = Swal.mixin({
-                                                toast: true,
-                                                position: 'top-end',
-                                                showConfirmButton: false,
-                                                timer: 1000,
-                                                timerProgressBar: true,
-                                                didOpen: (toast) => {
-                                                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                                                }
-                                            })
-
-                                            Toast.fire({
-                                                icon: 'success',
-                                                title: 'Enrolled Successfully'
-                                            })
-
-                                            document.querySelector(".submit").innerText = "+ Submit"
-                                            event.target.reset()
-                                            document.querySelector("#selectedPictureOutput").src = "../assets/upload.PNG"
-                                        
-                                        })
-                                        .catch(function (error) {
-                                            console.error("Error adding document: ", error);
-                                        });
-
-                                });
-                            }
-                        );
-
-
-                    }
-
-                });
-
-            } else {
-                return;
-            }
         })
         .catch(function (error) {
             console.error("Error getting documents: ", error);
         });
+
+    if (!isAlreadyEnrolled) {
+
+        // image upload to firebase
+
+        let fileref = firebase.storage().ref().child(`/students/profilePicture/${img.filename}/${new Date().getTime()}`)
+        let uploadTask = fileref.put(img)
+
+        uploadTask.on('state_changed',
+            (snapshot) => {
+                var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                // console.log('Upload is ' + progress + '% done');
+            },
+            (error) => {
+                console.log(error)
+            },
+            () => {
+                uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                    // console.log('File available at', downloadURL);
+
+                    // add student to database
+
+                    db.collection("studentsData2023")
+                        .add({
+                            cityName: cityName,
+                            courseName: courseName,
+                            fullName: fullName,
+                            fatherName: fatherName,
+                            email: email,
+                            phone: phone,
+                            cnic: cnic,
+                            dateOfBirth: dateOfBirth,
+                            gender: gender,
+                            lastQualification: lastQualification,
+                            address: address,
+                            image: downloadURL,
+                            status: status,
+                            rollNo: query + 1800,
+                            timestamp: timestamp,
+                        })
+                        .then(function (docRef) {
+                            // console.log("Document added successfully. ID:", docRef.id);
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 1000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                            })
+
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'Enrolled Successfully'
+                            })
+
+                            localStorage.setItem("techNetCLoudNicStd", cnic)
+                            document.querySelector(".submit").innerText = "+ Submit"
+                            event.target.reset()
+                            document.querySelector("#selectedPictureOutput").src = "../assets/upload.PNG"
+                            document.querySelector(".downloadCard").style.display = "flex"
+                            
+                            setTimeout(()=>{
+                                localStorage.removeItem("techNetCLoudNicStd")
+                            },15000)
+
+                        })
+                        .catch(function (error) {
+                            console.error("Error adding document: ", error);
+                        });
+
+                });
+            }
+        );
+
+    }
 
 }
 

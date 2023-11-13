@@ -9,6 +9,7 @@
   text-decoration: none !important;
   font-style: normal !important;
   accent-color: #15182b;
+  text-transform: capitalize;
 }
 
 /* body */
@@ -66,7 +67,7 @@ h6 {
 }
 
 a,
-.list > a {
+.list>a {
   color: #1f273a;
   margin: 0.5em 0.3em !important;
 }
@@ -97,6 +98,7 @@ a,
 .center {
   width: 100%;
   text-align: center;
+  display: none;
 }
 
 .left {
@@ -206,11 +208,9 @@ form {
   border-radius: 5px;
   padding: 1em;
   background-color: #1f273a;
-  gap: 1em;
-  flex-wrap: wrap;
-  display: grid;
-  /* grid-template-rows: repeat(3, 1fr); */
-  grid-template-columns: repeat(2, 1fr);
+  gap: 2em;
+  display: flex;
+  flex-direction: column;
 }
 
 .row {
@@ -256,6 +256,7 @@ table {
   width: 100%;
   overflow-x: auto;
   height: 100%;
+  display: none;
 }
 
 td,
@@ -265,6 +266,8 @@ th {
   padding: 0.5em;
   background-color: #1f273a;
   text-align: center;
+  min-width: 6em;
+  max-width: fit-content;
 }
 
 th {
@@ -341,7 +344,7 @@ textarea {
   text-align: center;
 }
 
-.downloadCard{
+.downloadCard {
   text-align: center;
   background-color: #fadf35;
   color: #15182b;
@@ -353,19 +356,7 @@ textarea {
   align-items: center;
   gap: 1em;
   font-size: 0.8em;
-  display: none;
   text-decoration: none;
-}
-
-.downloadCardPage{
-  text-align: center;
-  color: #fadf35;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1em;
-  font-size: 0.8em;
-  text-decoration: none
 }
 
 /* loader */
@@ -373,27 +364,28 @@ textarea {
 .loader {
   width: 20px;
   height: 20px;
-  border: 5px solid #fff!important;
+  border: 5px solid #fff !important;
   border-bottom-color: transparent;
   border-radius: 50%;
   display: inline-block;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
-  border-top: 0!important;
-  }
+  border-top: 0 !important;
+}
 
-  @keyframes rotation {
+.tdImage{
+  width: 3em;
+  height: 3em;
+  border-radius: 100%;
+  object-fit: cover;
+}
+
+@keyframes rotation {
   0% {
-      transform: rotate(0deg);
+    transform: rotate(0deg);
   }
-  100% {
-      transform: rotate(360deg);
-  }
-  } 
 
-@media only screen and (max-width: 660px) {
-  form {
-    display: flex;
-    flex-direction: column;
+  100% {
+    transform: rotate(360deg);
   }
 }
