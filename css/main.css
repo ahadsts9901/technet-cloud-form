@@ -341,7 +341,7 @@ textarea {
   text-align: center;
 }
 
-.downloadCard{
+.downloadCard {
   text-align: center;
   background-color: #fadf35;
   color: #15182b;
@@ -357,7 +357,7 @@ textarea {
   text-decoration: none;
 }
 
-.downloadCardPage{
+.downloadCardPage {
   text-align: center;
   color: #fadf35;
   display: flex;
@@ -365,7 +365,7 @@ textarea {
   align-items: center;
   gap: 1em;
   font-size: 0.8em;
-  text-decoration: none
+  text-decoration: none;
 }
 
 /* loader */
@@ -373,23 +373,23 @@ textarea {
 .loader {
   width: 20px;
   height: 20px;
-  border: 5px solid #fff!important;
+  border: 5px solid #fff !important;
   border-bottom-color: transparent;
   border-radius: 50%;
   display: inline-block;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
-  border-top: 0!important;
-  }
+  border-top: 0 !important;
+}
 
-  @keyframes rotation {
+@keyframes rotation {
   0% {
-      transform: rotate(0deg);
+    transform: rotate(0deg);
   }
   100% {
-      transform: rotate(360deg);
+    transform: rotate(360deg);
   }
-  } 
+}
 
 @media only screen and (max-width: 660px) {
   form {

@@ -64,6 +64,8 @@ function getCard(event) {
                     thFather.innerText = "Father";
                     let thRollNo = document.createElement("th");
                     thRollNo.innerText = "Roll No";
+                    let thCNIC = document.createElement("th");
+                    thCNIC.innerText = "CNIC";
                     let thCourse = document.createElement("th");
                     thCourse.innerText = "Course";
                     let thActions = document.createElement("th");
@@ -74,6 +76,7 @@ function getCard(event) {
                     trH.appendChild(thName);
                     trH.appendChild(thFather);
                     trH.appendChild(thRollNo);
+                    trH.appendChild(thCNIC);
                     trH.appendChild(thCourse);
                     trH.appendChild(thActions)
                     thead.appendChild(trH);
@@ -119,6 +122,10 @@ function getCard(event) {
                     let rollNo = document.createElement("td");
                     rollNo.innerText = data.rollNo || "";
                     tr.appendChild(rollNo);
+
+                    let cnic = document.createElement("td");
+                    cnic.innerText = data.cnic || "";
+                    tr.appendChild(cnic);
 
                     let courseName = document.createElement("td");
                     courseName.innerText = data.courseName;
